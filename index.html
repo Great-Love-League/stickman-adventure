@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoonBit 火柴人物理游戏</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        h1 {
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .controls {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            backdrop-filter: blur(10px);
+        }
+        
+        .controls ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .controls li {
+            background: rgba(255,255,255,0.2);
+            padding: 10px 15px;
+            border-radius: 25px;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        #gameCanvas {
+            border: 3px solid #fff;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            background: #87CEEB;
+            display: block;
+            margin: 20px auto;
+        }
+        
+        .status {
+            background: rgba(0,0,0,0.3);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+        }
+        
+        .status div {
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎮 MoonBit 火柴人物理游戏</h1>
+        <div class="controls">
+            <p><strong>🎯 控制说明：</strong></p>
+            <ul>
+                <li>🎮 A/D 或 ←/→ - 左右移动</li>
+                <li>🚀 W 或 ↑ - 跳跃</li>
+                <li>⬇️ S 或 ↓ - 蹲下</li>
+                <li>🎯 空格键 - 跳跃</li>
+                <li>🔄 R - 重置位置</li>
+                <li>🖱️ 鼠标 - 拖拽身体部位</li>
+            </ul>
+        </div>
+        <canvas id="gameCanvas" width="1000" height="600"></canvas>
+        <div class="status">
+            <div id="position">位置: (0, 0)</div>
+            <div id="velocity">速度: (0, 0)</div>
+        </div>
+    </div>
+    
+    <!-- Matter.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.18.0/matter.min.js"></script>
+    
+    <!-- FFI胶水代码 -->
+    <script src="js/matter_ffi.js"></script>
+    
+    <!-- MoonBit编译后的代码 -->
+    <script src="target/js/release/build/stickman-adventure.js" defer></script>
+</body>
+</html>

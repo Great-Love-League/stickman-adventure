@@ -1,0 +1,6 @@
+{
+  "is-main": false,
+  "import": [
+    "stickman-adventure/external"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "name": "stickman-adventure",
+  "version": "0.1.0",
+  "deps": {
+    "Yoorkin/rabbit-tea": "0.10.6"
+  },
+  "readme": "README.md",
+  "repository": "",
+  "license": "Apache-2.0",
+  "keywords": ["game", "stickman", "physics", "matter.js"],
+  "description": "Stickman physics game built with MoonBit and Matter.js",
+  "source": "src",
+  "preferred-target": "js"
+}

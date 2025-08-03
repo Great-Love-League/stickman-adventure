@@ -1,0 +1,9 @@
+{
+  "is-main": true,
+  "import": [
+    "stickman-adventure/matter",
+    "stickman-adventure/external", 
+    "Yoorkin/rabbit-tea/dom",
+    "rami3l/js-ffi/js"
+  ]
+}
