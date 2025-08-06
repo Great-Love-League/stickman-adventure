@@ -83,7 +83,7 @@ fn create_stickman(world: World, x: Double, y: Double) -> StickmanParts {
   
   let torso = create_rectangle(
     x, y, torso_width, torso_height, false,
-    "#FF6B6B", "#FF4757", 2.0, 0.0010 // 增加躯干密度
+    "#FF6B6B", "#FF4757", 2.0, 0.0020 // 大幅增加躯干密度
   )
   
   let left_upper_arm = create_rectangle(
@@ -259,19 +259,41 @@ fn create_world_objects(world: World, width: Int, height: Int) -> Unit {
   add_to_world(world, platform3)
 }
 
+///| Update balance using a PD controller
+fn update_balance(game: StickmanGame) -> Unit {
+  let torso = game.game_state.stickman_parts.torso
+  let torso_info = get_body_info(torso)
+
+  // PD Controller gains
+  let kp = 0.001 // Proportional gain (corrects position)
+  let kd = 0.0005 // Derivative gain (dampens oscillations)
+
+  // Calculate error and derivative
+  let angle_error = torso_info.angle // Target angle is 0
+  let angular_velocity = torso_info.angular_velocity
+
+  // Calculate torque
+  let torque = -kp * angle_error - kd * angular_velocity
+  
+  // Apply torque to the torso
+  // We add to the existing angular velocity; Matter.js will integrate this
+  set_torque(torso, torque)
+}
+
+
 ///| Game loop function
 fn schedule_game_loop(game: StickmanGame) -> Unit {
   @external.schedule_with_fixed_interval(1000 / 60, () => {
     update_controls(game)
+    update_balance(game) // Add balance control to the loop
     update_engine(game.game_state.engine, 16.0)
   }) |> ignore
 }
 
 ///| Update controls based on input
 fn update_controls(game: StickmanGame) -> Unit {
-  let force_strength = 0.006  // 调整控制力度
-  let jump_force = -0.018     // 调整跳跃力度
-  let upright_force = -0.001  // 减小持续升力
+  let force_strength = 0.01  // Control force
+  let jump_force = -0.02     // Jump force
   
   // Get current key states
   let left_pressed = is_key_pressed("ArrowLeft") || is_key_pressed("KeyA")
@@ -283,10 +305,6 @@ fn update_controls(game: StickmanGame) -> Unit {
   // Update key state
   game.keys.val = { left: left_pressed, right: right_pressed, up: up_pressed, down: down_pressed }
   
-  // 持续给上半身一点升力来保持直立
-  apply_force(game.game_state.stickman_parts.torso, 0.0, upright_force)
-  apply_force(game.game_state.stickman_parts.head, 0.0, upright_force * 0.3)
-  
   // Apply forces based on input
   if left_pressed {
     apply_force(game.game_state.stickman_parts.torso, -force_strength, 0.0)
@@ -297,8 +315,8 @@ fn update_controls(game: StickmanGame) -> Unit {
   }
   
   if up_pressed {
+    // Apply jump force to the main body and legs
     apply_force(game.game_state.stickman_parts.torso, 0.0, jump_force)
-    // 给腿部额外的跳跃力
     apply_force(game.game_state.stickman_parts.left_thigh, 0.0, jump_force * 0.2)
     apply_force(game.game_state.stickman_parts.right_thigh, 0.0, jump_force * 0.2)
   }

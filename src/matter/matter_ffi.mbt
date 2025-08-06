@@ -45,6 +45,7 @@ pub extern "js" fn set_body_position(body: Body, x: Double, y: Double) -> Unit =
 pub extern "js" fn set_body_velocity(body: Body, vx: Double, vy: Double) -> Unit = "matter_ffi.setBodyVelocity"
 pub extern "js" fn set_body_angle(body: Body, angle: Double) -> Unit = "matter_ffi.setBodyAngle"
 pub extern "js" fn set_angular_velocity(body: Body, velocity: Double) -> Unit = "matter_ffi.setAngularVelocity"
+pub extern "js" fn set_torque(body: Body, torque: Double) -> Unit = "matter_ffi.setTorque"
 pub extern "js" fn apply_force(body: Body, fx: Double, fy: Double) -> Unit = "matter_ffi.applyForce"
 pub extern "js" fn get_body_info(body: Body) -> BodyInfo = "matter_ffi.getBodyInfo"
 

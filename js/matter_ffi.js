@@ -8,12 +8,21 @@ const bodyMap = new Map();
 const keyStates = {};
 
 // 键盘事件监听
-function setupInput() {
+function initializeKeyboardListeners() {
+  // 防止重复添加监听器
+  if (window.keyboardListenersInitialized) {
+    return;
+  }
+  window.keyboardListenersInitialized = true;
+  console.log("Initializing keyboard listeners...");
+
   document.addEventListener('keydown', (event) => {
+    console.log(`Key down: ${event.code}`);
     keyStates[event.code] = true;
   });
   
   document.addEventListener('keyup', (event) => {
+    console.log(`Key up: ${event.code}`);
     keyStates[event.code] = false;
   });
 }
@@ -88,6 +97,10 @@ const matter_ffi = {
 
   setAngularVelocity(body, velocity) {
     Body.setAngularVelocity(body, velocity);
+  },
+
+  setTorque(body, torque) {
+    body.torque = torque;
   },
 
   applyForce(body, fx, fy) {
@@ -192,7 +205,7 @@ const matter_ffi = {
   },
 
   setupInput() {
-    setupInput();
+    initializeKeyboardListeners();
   },
 
   // 重置火柴人位置
